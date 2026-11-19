@@ -1,0 +1,23 @@
+#server:
+#  port: ${SERVER_PORT:8081}
+spring:
+  application:
+    name: account-service
+  datasource:
+    url: ${DB_URL:jdbc:h2:mem:testdb}
+    username: sa
+    password: ''
+    driverClassName: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    database-platform: org.hibernate.dialect.H2Dialect
+
+
+logging:
+  pattern:
+    console: ${CONSOLE.LOG.PATTERN:%green(%d{HH:mm:ss.SSS}) %blue(%-5level) %red([%thread]) %yellow(%logger{36}) - %msg%n}
