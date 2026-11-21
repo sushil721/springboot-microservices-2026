@@ -52,4 +52,41 @@ public class AccountServiceImpl implements IAccountService{
 
         return customerDto;
     }
+
+    @Override
+    public boolean updateAccount(CustomerDto customerDto) {
+        boolean isUpdate = false;
+        AccountsDto accountsDto = customerDto.getAccountsDto();
+        if(accountsDto != null){
+            Accounts accounts = accountsRepository.findById(accountsDto.getAccountNumber())
+                    .orElseThrow( () -> new ResourceNotFoundException("Account", "AccountNumber", accountsDto.getAccountNumber().toString()));
+            AccountsMapper.mapToAccounts(accountsDto, accounts);
+
+            accounts.setUpdatedAt(LocalDateTime.now());
+            accounts.setUpdatedBy(customerDto.getName());
+
+            accounts = accountsRepository.save(accounts);
+
+            Long customerId = accounts.getCustomerId();
+            Customer customer = customerRepository.findById(customerId)
+                    .orElseThrow( ()-> new ResourceNotFoundException("Customer", "CustomerID", customerId.toString()));
+
+            CustomerMapper.mapToCustomer(customerDto, customer);
+            customer.setUpdatedAt(LocalDateTime.now());
+            customer.setUpdatedBy(customerDto.getName());
+
+            customerRepository.save(customer);
+            isUpdate = true;
+        }
+        return isUpdate;
+    }
+
+    @Override
+    public boolean deleteAccount(String mobileNumber) {
+        Customer customer = customerRepository.findByMobileNumber(mobileNumber)
+                .orElseThrow( ()-> new ResourceNotFoundException("Customer", "MobileNumber", mobileNumber));
+        accountsRepository.deleteByCustomerId(customer.getCustomerId());
+        customerRepository.deleteById(customer.getCustomerId());
+        return true;
+    }
 }
