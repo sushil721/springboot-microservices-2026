@@ -20,8 +20,8 @@ public class AccountUtility {
         newAccount.setCustomerId(customer.getCustomerId());
         newAccount.setAccountType(AccountConstant.SAVING);
         newAccount.setBranchAddress(AccountConstant.ADDRESS);
-        newAccount.setCreatedAt(LocalDateTime.now());
-        newAccount.setCreatedBy(customer.getName());
+        //newAccount.setCreatedAt(LocalDateTime.now());
+        //newAccount.setCreatedBy(customer.getName());
         return newAccount;
     }
 }

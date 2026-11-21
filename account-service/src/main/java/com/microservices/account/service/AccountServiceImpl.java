@@ -33,8 +33,8 @@ public class AccountServiceImpl implements IAccountService{
         if(optionalCustomer.isPresent()){
             throw new CustomerAlreadyExistsException("Customer already registered with given mobile number: "+customerDto.getMobileNumber());
         }
-        customer.setCreatedAt(LocalDateTime.now());
-        customer.setCreatedBy(customer.getName());
+        //customer.setCreatedAt(LocalDateTime.now());
+        //customer.setCreatedBy(customer.getName());
 
         Customer savedCustomer = customerRepository.save(customer);
 
@@ -62,8 +62,8 @@ public class AccountServiceImpl implements IAccountService{
                     .orElseThrow( () -> new ResourceNotFoundException("Account", "AccountNumber", accountsDto.getAccountNumber().toString()));
             AccountsMapper.mapToAccounts(accountsDto, accounts);
 
-            accounts.setUpdatedAt(LocalDateTime.now());
-            accounts.setUpdatedBy(customerDto.getName());
+            //accounts.setUpdatedAt(LocalDateTime.now());
+            //accounts.setUpdatedBy(customerDto.getName());
 
             accounts = accountsRepository.save(accounts);
 
@@ -72,8 +72,8 @@ public class AccountServiceImpl implements IAccountService{
                     .orElseThrow( ()-> new ResourceNotFoundException("Customer", "CustomerID", customerId.toString()));
 
             CustomerMapper.mapToCustomer(customerDto, customer);
-            customer.setUpdatedAt(LocalDateTime.now());
-            customer.setUpdatedBy(customerDto.getName());
+            //customer.setUpdatedAt(LocalDateTime.now());
+            //customer.setUpdatedBy(customerDto.getName());
 
             customerRepository.save(customer);
             isUpdate = true;
