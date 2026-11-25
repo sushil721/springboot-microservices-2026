@@ -8,3 +8,83 @@ http://localhost:9001/h2-console
 ![h2-db-img.png](h2-db-img.png)
 
 Open-API URL: http://localhost:9001/swagger-ui.html
+
+### Docker setup Documentation
+For further reference, please consider the following sections:
+
+#### 3 Ways to build Spring Boot Application in Docker
+A) Dockerfile (account-service)
+
+B) Buildpack (loans-service)
+
+C) Google Jib (cards-service)
+
+#### A) Containerize account-service with Dockerfile :
+* Add port in properties file.
+```bash
+server.port=9001
+```
+
+* Dockerhub openJDK link for Dockerfile: [https://hub.docker.com/_/eclipse-temurin](https://hub.docker.com/_/eclipse-temurin)
+
+* Create Dockerfile in project account-service directory
+```bash
+FROM eclipse-temurin:25-jre-ubi10-minimal
+LABEL "org.opencontainers.image.authors"="sushilgiacr@gmail.com"
+COPY target/account-service-0.0.1-SNAPSHOT.jar account-service-1.0.0.jar
+ENTRYPOINT ["java", "-jar", "account-service-1.0.0.jar"]
+```
+
+* Create Docker image (Open Docker Desktop and cmd) :
+```bash
+docker version
+docker build -t sushilgiacr/account-service:s4 .
+```
+** Note : here . (dot) means current working directory where Dockerfile exist.
+
+** create image with tag name
+```bash
+docker build -t sushilgiacr/account-service:s4
+```
+
+* Check created image
+```bash
+docker images
+docker images inspect <IMAGE_ID>
+```
+
+* Docker image run :
+```bash
+docker run --name account-service-9001 -p 9001:8080 sushilgiacr/account-service:s4
+```
+
+**Note: 8080:8080 -> first to access, 2nd to run docker container. eg,
+
+```bash
+docker run -p 9001:8080 sushilgiacr/account-service:s4
+```
+** We can access with http://localhost:9001/v1/accounts/ping
+
+* Check Running containers
+```bash
+docker ps
+```
+
+* Run container in Detached-mode (-d) (in background). Ctrl+C will not terminate our service.
+```bash
+docker run -p 9001:8080 -d sushilgiacr/account-service:s4
+```
+**Note: It will give us image ID: 3409e6ebe84740b419982c77124d45ac50effaab8c25da9cdac727ad23fcda71
+
+* Check detached-mode running application log.
+```bash
+docker logs -f 3409
+```
+**Note: 3409 is first 4 digit of running id of above container.
+
+* Stop running docker container:
+```bash
+docker ps
+docker stop 3409
+```
+
