@@ -44,7 +44,7 @@ docker build -t sushilgiacr/account-service:s4 .
 
 ** create image with tag name
 ```bash
-docker build -t sushilgiacr/account-service:s4
+docker build -t sushilgiacr/account-service:s4 .
 ```
 
 * Check created image
