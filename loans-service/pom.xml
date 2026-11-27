@@ -23,6 +23,11 @@
     <build>
         <plugins>
             <plugin>
+                <configuration>
+                    <image>
+                        <name>sushilgiacr/${artifactId}:s4</name>
+                    </image>
+                </configuration>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
