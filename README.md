@@ -96,7 +96,7 @@ docker rm 3409
 ```
 
 #### B) Containerize loans-service using Buildpack :
-* Cloud native buildpack link for Dockerfile: [https://buildpacks.io/](https://buildpacks.io/)
+* Cloud native buildpack link: [https://buildpacks.io/](https://buildpacks.io/)
 * Add port in properties file.
 ```bash
 server.port=9002
@@ -145,6 +145,63 @@ docker run --name loans-service-9002 -d -p 9002:9002 sushilgiacr/loans-service:s
 ```bash
 docker ps -a
 ```
-
 * Check Swagger-UI URL: http://localhost:9002/swagger-ui.html
+
+
+#### C) Containerize cards-service using Google Jib:
+* Add port in properties file.
+```bash
+server.port=9003
+```
+* Google Jib link: [https://github.com/GoogleContainerTools/jib](https://github.com/GoogleContainerTools/jib)
+* Go to https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin -> setup
+* Add plugin configuration in pom.xml
+```xml
+<build>
+    <plugins>
+        <plugin>        
+            <groupId>com.google.cloud.tools</groupId>
+            <artifactId>jib-maven-plugin</artifactId>
+            <version>3.5.2</version>
+            <configuration>
+                <to>
+                    <image>sushilgiacr/cards-service:s4</image>
+                </to>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+```
+* Clean and package the application using maven command or by IDE
+```bash
+mvn clean package
+```
+* Goto cards-service directory
+```bash
+cd cards-service
+```
+* Run mvn command to build LOCAL docker image using Google Jib
+```bash
+mvn compile jib:dockerBuild
+```
+* Check the built image
+```bash
+docker images
+```
+* Run the built image
+```bash
+docker run --name cards-service-9003 -d -p 9003:9003 sushilgiacr/cards-service:s4
+```
+* Check running containers
+```bash
+docker ps -a
+```
+* Check Swagger-UI URL: http://localhost:9003/swagger-ui.html   
+
+* Read entire document of (https://github.com/GoogleContainerTools/jib/tree/master/jib-maven-plugin) JIB for upload image in Container registrirs like, Google Container Registry, DockerHub, Amazon ECR, Azure Container Registry, etc.
+* By using below command we can build and upload docker image at remote container registries.
+```bash
+mvn compile jib:build
+```
+
 
