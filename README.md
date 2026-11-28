@@ -9,7 +9,7 @@ http://localhost:9001/h2-console
 
 Open-API URL: http://localhost:9001/swagger-ui.html
 
-### Docker setup Documentation
+## Docker setup Documentation
 For further reference, please consider the following sections:
 
 #### 3 Ways to build Spring Boot Application in Docker
@@ -202,6 +202,26 @@ docker ps -a
 * By using below command we can build and upload docker image at remote container registries.
 ```bash
 mvn compile jib:build
+```
+
+### Pushing docker image from local to DockerHub:
+
+* here we can also push our local docker image to other container registries like, Google Container Registry, Amazon ECR, Azure Container Registry, etc.    
+
+```bash
+ docker login
+ docker image push docker.io/sushilgiacr/accounts-service:s4
+ docker image push docker.io/sushilgiacr/loans-service:s4
+ docker image push docker.io/sushilgiacr/cards-service:s4  
+```
+
+* Check docker images in DockerHub: [https://hub.docker.com/r/sushilgiacr](https://hub.docker.com/r/sushilgiacr)
+* MyHub -> Repository -> All image listed here.
+* We can also change visibility of image from public to private and vice-versa.
+* We can PULL image from DockerHub (first delete existing image from local).
+```bash
+ docker pull sushilgiacr/accounts-service:s4
+ docker images
 ```
 
 
